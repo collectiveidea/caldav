@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<cal:mkcalendar xmlns:dav="DAV:"
+             xmlns:cal="urn:ietf:params:xml:ns:caldav">
+ <dav:set>
+   <dav:prop>
+     <dav:displayname>A New Calendar</dav:displayname>
+   </dav:prop>
+ </dav:set>
+</cal:mkcalendar>
