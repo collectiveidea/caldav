@@ -39,13 +39,6 @@ class MkcalendarTest < Test::Unit::TestCase
     assert_request_file(['mkcalendar', 'success_only_description.xml'], @request)
   end
   
-  def test_generates_body_on_exec
-    Net::HTTPGenericRequest.any_instance.expects(:exec).with(nil, nil, nil).returns(nil)
-    assert_nil @request.body
-    @request.exec(nil, nil, nil)
-    assert_not_nil @request.body
-  end
-  
 protected
 
   def assert_request_file(path, request)

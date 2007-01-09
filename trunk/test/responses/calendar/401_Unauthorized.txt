@@ -1,0 +1,9 @@
+HTTP/1.1 401 Unauthorized
+Content-Length: 141
+Server: Twisted/2.4.0+r18545 TwistedWeb/[twisted.web2, version 0.2.0 (SVN r18545)] TwistedCalDAV/?
+DAV: 1, access-control, calendar-access, calendar-schedule
+Date: Tue, 09 Jan 2007 20:05:16 GMT
+Content-Type: text/html
+WWW-Authenticate: basic realm="Test Realm"
+
+<html><head><title>Unauthorized</title></head><body><h1>Unauthorized</h1><p>You are not authorized to access this resource.</p></body></html>

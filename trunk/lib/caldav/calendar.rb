@@ -27,6 +27,7 @@ module CalDAV
         req.description = options[:description]
         http.request req
       end
+      raise CalDAV::Error.new(res.message, res) if res.code != '201'
       self.new(uri, options)
     end
       
@@ -37,6 +38,16 @@ module CalDAV
     
     def properties
       request Net::HTTP::Propfind
+    end
+    
+    def add_event(calendar)
+      req = returning(prepare_request(Net::HTTP::Put.new("#{uri.path}/#{calendar.events.first.uid}.ics"))) do |req|
+        req.add_field "If-None-Match", "*"
+        req.body = calendar.to_ical
+      end
+      res = request req
+      raise CalDAV::Error.new(res.message, res) if res.code != '201'
+      return true
     end
     
   private

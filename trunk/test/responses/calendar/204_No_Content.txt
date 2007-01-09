@@ -1,0 +1,5 @@
+HTTP/1.1 204 No Content
+Date: Tue, 09 Jan 2007 20:56:13 GMT
+DAV: 1, access-control, calendar-access, calendar-schedule
+Content-Length: 0
+Server: Twisted/2.4.0+r18545 TwistedWeb/[twisted.web2, version 0.2.0 (SVN r18545)] TwistedCalDAV/?
