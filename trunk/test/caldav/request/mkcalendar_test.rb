@@ -1,10 +1,10 @@
-require File.dirname(__FILE__) + '/../test_helper.rb'
+require File.dirname(__FILE__) + '/../../test_helper.rb'
 
 class MkcalendarTest < Test::Unit::TestCase
   
   def setup
     @uri = URI.parse("http://example.com/calendar/test")
-    @request = CalDAV::Mkcalendar.new(@uri.path)    
+    @request = CalDAV::Request::Mkcalendar.new(@uri.path)    
   end
   
   def test_displayname
@@ -39,17 +39,20 @@ class MkcalendarTest < Test::Unit::TestCase
     assert_request_file(['mkcalendar', 'success_only_description.xml'], @request)
   end
   
-  def test_body
-    @request.displayname = "A New Calendar"
-    @request.description = "A description for a new calendar"
-    @request.timezone = TZInfo::Timezone.new('America/Detroit')
-    assert_request_file(['mkcalendar', 'success.xml'], @request)
+  def test_generates_body_on_exec
+    Net::HTTPGenericRequest.any_instance.expects(:exec).with(nil, nil, nil).returns(nil)
+    assert_nil @request.body
+    @request.exec(nil, nil, nil)
+    assert_not_nil @request.body
   end
   
+protected
+
   def assert_request_file(path, request)
-    path = File.join(File.dirname(__FILE__), '..', 'requests', *path )
+    path = File.join(File.dirname(__FILE__), '..', '..', 'requests', *path )
     file = File.read(path)
-    assert_not_nil request.body
-    assert_equal REXML::Document.new(file, :compress_whitespace => :all, :ignore_whitespace_nodes => :all).to_s, REXML::Document.new(request.body, :compress_whitespace => :all, :ignore_whitespace_nodes => :all).to_s
+    assert_not_nil request.generate_body
+    assert_equal REXML::Document.new(file, :compress_whitespace => :all, :ignore_whitespace_nodes => :all).to_s, REXML::Document.new(request.generate_body, :compress_whitespace => :all, :ignore_whitespace_nodes => :all).to_s
   end
+
 end

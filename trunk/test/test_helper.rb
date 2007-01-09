@@ -3,4 +3,5 @@ $:.unshift(File.dirname(__FILE__) + '/mocks')
 
 require 'test/unit'
 require 'caldav'
-require 'hpricot'
+require 'mocha'
+require 'stubba'

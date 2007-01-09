@@ -39,7 +39,7 @@ hoe = Hoe.new(GEM_NAME, VERS) do |p|
   #p.changes        - A description of the release's latest changes.
   #p.extra_deps     - An array of rubygem dependencies.
   #p.spec_extras    - A hash of extra values to set in the gemspec.
-  p.extra_deps << ['activesupport', 'tzinfo', 'builder']
+  p.extra_deps << ['activesupport']
   
 end
           
