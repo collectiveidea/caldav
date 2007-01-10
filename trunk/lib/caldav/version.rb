@@ -1,4 +1,4 @@
-module Caldav #:nodoc:
+module CalDAV #:nodoc:
   module VERSION #:nodoc:
     MAJOR = 0
     MINOR = 0

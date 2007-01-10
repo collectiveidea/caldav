@@ -1,0 +1,15 @@
+MKCALENDAR /calendars/users/admin/newcal/ HTTP/1.1
+Accept: */*
+Authorization: Basic YWRtaW46cGFzc3dvcmQ=
+Content-Length: 337
+Host: example.com
+
+<?xml version="1.0" encoding="UTF-8"?>
+<cal:mkcalendar xmlns:dav="DAV:" xmlns:cal="urn:ietf:params:xml:ns:caldav">
+  <dav:set>
+    <dav:prop>
+      <dav:displayname>New Calendar</dav:displayname>
+      <cal:calendar-description xml:lang="en">Calendar Description</cal:calendar-description>
+    </dav:prop>
+  </dav:set>
+</cal:mkcalendar>

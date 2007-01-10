@@ -5,7 +5,7 @@ module CalDAV
 
       def generate_body
         result = ""
-        xml = Builder::XmlMarkup.new(:target => result)
+        xml = Builder::XmlMarkup.new(:target => result, :indent => 2)
         namespaces = { "xmlns:dav" => 'DAV:', "xmlns:cal" => "urn:ietf:params:xml:ns:caldav" }
 
         xml.instruct!

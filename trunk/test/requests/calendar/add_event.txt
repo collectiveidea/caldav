@@ -1,0 +1,20 @@
+PUT /calendars/users/admin/newcal//\W\.ics HTTP/1\.1
+If-None-Match: *
+Accept: */*
+Authorization: Basic YWRtaW46cGFzc3dvcmQ=
+Content-Length: 276
+Host: example.com
+
+BEGIN:VCALENDAR
+VERSION:2.0
+CALSCALE:GREGORIAN
+PRODID:iCalendar-Ruby
+BEGIN:VEVENT
+DTEND:184740
+UID:2007-01-09T17:47:40-0500_452418717@brandon-keepers-computer.local
+SUMMARY:Playing with CalDAV
+DTSTART:174740
+DTSTAMP:20070109T174740
+SEQ:0
+END:VEVENT
+END:VCALENDAR

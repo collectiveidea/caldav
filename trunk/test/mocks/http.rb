@@ -15,25 +15,6 @@ module Net
       on_connect
     end
     
-    # class HTTPResponse
-    #   
-      # class << self
-      #   
-      #   alias original_read_new read_new
-      #   def read_new(sock)
-      #     
-      #     original_read_new(sock)
-      #   end
-      #   
-      #   
-      #   def prepare_response(sock)
-      #     
-      #   end
-      #   
-      # end
-    #   
-    # end
-    
   end
   
   class BufferedIO
@@ -45,6 +26,12 @@ module Net
       @read_timeout = 60
       @debug_output = nil
       @rbuf = ''
+    end
+    
+    alias original_close close
+    def close
+      Net::HTTP.requests << @io.string
+      original_close
     end
     
   private
