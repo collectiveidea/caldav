@@ -5,7 +5,8 @@ require 'active_support'
 require 'icalendar'
 require 'tzinfo'
 require 'net/http'
-require File.join(File.dirname(__FILE__), 'extensions', 'net', 'http.rb')
+require 'extensions/net/http'
+require 'extensions/icalendar/event'
 
 Dir[File.join(File.dirname(__FILE__), 'caldav/**/*.rb')].sort.each { |lib| require lib }
 

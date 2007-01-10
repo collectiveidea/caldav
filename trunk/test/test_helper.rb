@@ -10,7 +10,7 @@ class Test::Unit::TestCase
   
 private
   
-  def response(test_name, response_name)
+  def prepare_response(test_name, response_name)
     Net::HTTP.responses << File.read(File.join(File.dirname(__FILE__), 'responses', test_name, "#{response_name}.txt"))
   end
   

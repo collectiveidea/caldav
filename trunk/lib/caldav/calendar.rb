@@ -48,6 +48,30 @@ module CalDAV
       true
     end
     
+    def events
+      events = []
+      
+      file = File.read(File.dirname(__FILE__)+'/../../test/responses/calendar/events.txt')
+      file.split("\n").slice(5..-1).join("\n")
+      
+      body = REXML::Document.new(file)
+      body.root.add_namespace 'dav', 'DAV:'
+      body.root.add_namespace 'caldav', 'urn:ietf:params:xml:ns:caldav'
+
+      body.elements.each("dav:multistatus/dav:response") do |element|
+        calendar = Icalendar::Parser.new(element.elements["dav:propstat/dav:prop/caldav:calendar-data"].text).parse.first
+        calendar.events.each do |event|
+          event.caldav = {
+            :etag => element.elements["dav:propstat/dav:prop/dav:getetag"].text, 
+            :href => element.elements["dav:href"].text
+          }
+        events += calendar.events
+        end
+      end
+      
+      events
+    end
+    
   private
   
     def new_request(clazz, &block)

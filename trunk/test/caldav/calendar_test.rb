@@ -14,7 +14,7 @@ class CalendarTest < Test::Unit::TestCase
   end
   
   def test_create
-    response('calendar', 'success')
+    prepare_response('calendar', 'success')
     cal = CalDAV::Calendar.create(@uri, :username => @username, :password => @password,
       :displayname => "New Calendar", :description => "Calendar Description")
     assert_request 'calendar', 'create'
@@ -22,7 +22,7 @@ class CalendarTest < Test::Unit::TestCase
   end
   
   def test_unauthorized_failure_on_create
-    response('calendar', '401_Unauthorized')
+    prepare_response('calendar', '401_Unauthorized')
     begin
       cal = CalDAV::Calendar.create(@uri,
         :displayname => "New Calendar", :description => "Calendar Description")
@@ -36,7 +36,7 @@ class CalendarTest < Test::Unit::TestCase
   end
   
   def test_add_event
-    response('calendar', 'success')
+    prepare_response('calendar', 'success')
     @cal = Icalendar::Calendar.new
     @cal.event do
       dtstart 174740
@@ -49,4 +49,15 @@ class CalendarTest < Test::Unit::TestCase
     assert_request 'calendar', 'add_event'
   end
   
+  def test_find_all_events
+    prepare_response('calendar', 'events')
+    events = @calendar.events
+    assert_kind_of Array, events
+    assert !events.empty?
+    events.each do |event|
+      assert_kind_of Icalendar::Event, event
+    end
+    
+    assert_request 'calendar', 'events'
+  end
 end
