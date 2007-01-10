@@ -1,4 +1,3 @@
-
 module CalDAV
   
   class Calendar
@@ -20,56 +19,54 @@ module CalDAV
     #
     def self.create(uri, options = {})
       parsed_uri = URI.parse(uri)
-      res = Net::HTTP.start(parsed_uri.host, parsed_uri.port) do |http|
-        req = CalDAV::Request::Mkcalendar.new(parsed_uri.path)
-        req.basic_auth options[:username], options[:password] unless options[:username].blank? && options[:password].blank?
-        req.displayname = options[:displayname]
-        req.description = options[:description]
-        http.request req
+      response = Net::HTTP.start(parsed_uri.host, parsed_uri.port) do |http|
+        request = CalDAV::Request::Mkcalendar.new(parsed_uri.path)
+        request.basic_auth options[:username], options[:password] unless options[:username].blank? && options[:password].blank?
+        request.displayname = options[:displayname]
+        request.description = options[:description]
+        http.request request
       end
-      raise CalDAV::Error.new(res.message, res) if res.code != '201'
+      raise CalDAV::Error.new(response.message, response) if response.code != '201'
       self.new(uri, options)
     end
       
     def delete
-      request Net::HTTP::Delete
+      perform_request Net::HTTP::Delete
     end
     
     
     def properties
-      request Net::HTTP::Propfind
+      perform_request Net::HTTP::Propfind
     end
     
     def add_event(calendar)
-      req = returning(prepare_request(Net::HTTP::Put.new("#{uri.path}/#{calendar.events.first.uid}.ics"))) do |req|
-        req.add_field "If-None-Match", "*"
-        req.body = calendar.to_ical
-      end
-      res = request req
-      raise CalDAV::Error.new(res.message, res) if res.code != '201'
-      return true
+      request = prepare_request(Net::HTTP::Put.new("#{uri.path}/#{calendar.events.first.uid}.ics"))
+      request.add_field "If-None-Match", "*"
+      request.body = calendar.to_ical
+      response = perform_request request
+      raise CalDAV::Error.new(response.message, response) if response.code != '201'
+      true
     end
     
   private
   
     def new_request(clazz, &block)
-      returning prepare_request(clazz.new(uri.path)) do |req|
-        yield req if block_given?
+      returning prepare_request(clazz.new(uri.path)) do |request|
+        yield request if block_given?
       end
     end
     
-    def prepare_request(req)
-      req.basic_auth options[:username], options[:password] unless options[:username].blank? && options[:password].blank?
-      req
+    def prepare_request(request)
+      request.basic_auth options[:username], options[:password] unless options[:username].blank? && options[:password].blank?
+      request
     end
     
-    def request(req)
-      req = new_request(req) if req.is_a? Class
+    def perform_request(request)
+      request = new_request(request) if request.is_a? Class
       Net::HTTP.start(uri.host, uri.port) do |http|
-        http.request req
+        http.request request
       end
     end
 
   end
-  
 end

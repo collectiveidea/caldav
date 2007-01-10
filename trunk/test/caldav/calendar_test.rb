@@ -39,9 +39,11 @@ class CalendarTest < Test::Unit::TestCase
     response('calendar', 'success')
     @cal = Icalendar::Calendar.new
     @cal.event do
-      dtstart Time.now
+      dtstart 174740
       summary "Playing with CalDAV"
-      dtend 1.hour.from_now
+      dtend 184740
+      dtstamp '20070109T174740'
+      uid 'UID'
     end
     assert @calendar.add_event(@cal)
     assert_request 'calendar', 'add_event'
