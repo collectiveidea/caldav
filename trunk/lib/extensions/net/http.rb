@@ -1,5 +1,5 @@
-module Net
-  class HTTP
+module Net #:nodoc:
+  class HTTP #:nodoc:
     
     class Mkcalendar < HTTPRequest
       METHOD = 'MKCALENDAR'

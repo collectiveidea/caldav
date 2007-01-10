@@ -2,4 +2,4 @@
 
 == To Do
 
-* convert tzinfo to VTIMEZONE
+* Generate VTIMEZONE

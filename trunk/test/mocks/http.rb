@@ -7,8 +7,6 @@ module Net
     self.requests = []
     self.responses = []
     
-    attr_accessor :socket
-    
     alias original_connect connect
     def connect
       @socket = BufferedIO.new(StringIO.new(self.class.responses.shift))
