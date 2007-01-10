@@ -21,5 +21,6 @@ hoe = Hoe.new('caldav', ENV['VERSION'] || CalDAV::VERSION::STRING) do |p|
   p.extra_deps << ['activesupport']
   p.extra_deps << ['tzinfo']
   p.extra_deps << ['builder']
+  p.extra_deps << ['icalendar']
 end
           

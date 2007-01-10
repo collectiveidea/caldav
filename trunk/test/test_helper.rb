@@ -5,8 +5,6 @@ require 'rubygems'
 require 'test/unit'
 require 'breakpoint'
 require 'caldav'
-require 'mocha'
-require 'stubba'
 
 class Test::Unit::TestCase
   
