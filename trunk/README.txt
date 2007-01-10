@@ -1,7 +1,5 @@
-README for caldav
-=================
+= CalDAV
 
-
-ToDo:
+== To Do
 
 * convert tzinfo to VTIMEZONE
