@@ -3,15 +3,14 @@ History.txt
 Manifest.txt
 README.txt
 Rakefile
+init.rb
 lib/caldav.rb
 lib/caldav/calendar.rb
 lib/caldav/request/mkcalendar.rb
 lib/caldav/version.rb
-lib/extensions/icalendar/timezone.rb
 lib/extensions/net/http.rb
 test/caldav/calendar_test.rb
 test/caldav/request/mkcalendar_test.rb
-test/extensions/icalendar/icalendar_from_tzinfo.rb
 test/extensions/net/http_test.rb
 test/mocks/http.rb
 test/requests/calendar/add_event.txt

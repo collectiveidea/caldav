@@ -26,26 +26,17 @@ class MkcalendarTest < Test::Unit::TestCase
   end
   
   def test_body_without_data
-    assert_request_file(['mkcalendar', 'success_empty_body.xml'], @request)
+    assert_request_body(['mkcalendar', 'success_empty_body.xml'], @request)
   end
   
   def test_body_with_only_displayname
     @request.displayname = "A New Calendar"
-    assert_request_file(['mkcalendar', 'success_only_displayname.xml'], @request)
+    assert_request_body(['mkcalendar', 'success_only_displayname.xml'], @request)
   end
   
   def test_body_with_only_description
     @request.description = "A description for a new calendar"
-    assert_request_file(['mkcalendar', 'success_only_description.xml'], @request)
-  end
-  
-protected
-
-  def assert_request_file(path, request)
-    path = File.join(File.dirname(__FILE__), '..', '..', 'requests', *path )
-    file = File.read(path)
-    assert_not_nil request.generate_body
-    assert_equal REXML::Document.new(file, :compress_whitespace => :all, :ignore_whitespace_nodes => :all).to_s, REXML::Document.new(request.generate_body, :compress_whitespace => :all, :ignore_whitespace_nodes => :all).to_s
+    assert_request_body(['mkcalendar', 'success_only_description.xml'], @request)
   end
 
 end

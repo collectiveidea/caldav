@@ -39,9 +39,9 @@ class CalendarTest < Test::Unit::TestCase
     prepare_response('calendar', 'success')
     @cal = Icalendar::Calendar.new
     @cal.event do
-      dtstart 174740
+      dtstart DateTime.parse("20060102T090000Z")
       summary "Playing with CalDAV"
-      dtend 184740
+      dtend DateTime.parse("20060102T090000Z")
       dtstamp '20070109T174740'
       uid 'UID'
     end
@@ -51,13 +51,12 @@ class CalendarTest < Test::Unit::TestCase
   
   def test_find_all_events
     prepare_response('calendar', 'events')
-    events = @calendar.events
+    events = @calendar.events(DateTime.parse("20060102T000000Z")..DateTime.parse("20060103T000000Z"))
     assert_kind_of Array, events
     assert !events.empty?
     events.each do |event|
       assert_kind_of Icalendar::Event, event
     end
-    
-    assert_request 'calendar', 'events'
+    assert_request 'calendar', 'time_range'
   end
 end

@@ -2,7 +2,7 @@ PUT /calendars/users/admin/newcal//UID.ics HTTP/1\.1
 If-None-Match: *
 Accept: */*
 Authorization: Basic YWRtaW46cGFzc3dvcmQ=
-Content-Length: 214
+Content-Length: 232
 Host: example.com
 
 BEGIN:VCALENDAR
@@ -10,10 +10,10 @@ VERSION:2.0
 CALSCALE:GREGORIAN
 PRODID:iCalendar-Ruby
 BEGIN:VEVENT
-DTEND:184740
+DTEND:20060102T090000
 UID:UID
 SUMMARY:Playing with CalDAV
-DTSTART:174740
+DTSTART:20060102T090000
 DTSTAMP:20070109T174740
 SEQ:0
 END:VEVENT

@@ -40,7 +40,7 @@ module CalDAV
     end
     
     def add_event(calendar)
-      request = prepare_request(Net::HTTP::Put.new("#{uri.path}/#{calendar.events.first.uid}.ics"))
+      request = Net::HTTP::Put.new("#{uri.path}/#{calendar.events.first.uid}.ics")
       request.add_field "If-None-Match", "*"
       request.body = calendar.to_ical
       response = perform_request request
@@ -48,13 +48,16 @@ module CalDAV
       true
     end
     
-    def events
+    # TODO: check that supported-report-set includes REPORT
+    def events(time_range)
+      request = new_request CalDAV::Request::Report do |request|
+        request.time_range = time_range
+      end
+      response = perform_request request
+      
       events = []
       
-      file = File.read(File.dirname(__FILE__)+'/../../test/responses/calendar/events.txt')
-      file.split("\n").slice(5..-1).join("\n")
-      
-      body = REXML::Document.new(file)
+      body = REXML::Document.new(response.body)
       body.root.add_namespace 'dav', 'DAV:'
       body.root.add_namespace 'caldav', 'urn:ietf:params:xml:ns:caldav'
 
@@ -75,7 +78,7 @@ module CalDAV
   private
   
     def new_request(clazz, &block)
-      returning prepare_request(clazz.new(uri.path)) do |request|
+      returning clazz.new(uri.path) do |request|
         yield request if block_given?
       end
     end
@@ -88,7 +91,7 @@ module CalDAV
     def perform_request(request)
       request = new_request(request) if request.is_a? Class
       Net::HTTP.start(uri.host, uri.port) do |http|
-        http.request request
+        http.request prepare_request(request)
       end
     end
 

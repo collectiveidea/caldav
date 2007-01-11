@@ -9,10 +9,10 @@ module CalDAV
         namespaces = { "xmlns:dav" => 'DAV:', "xmlns:cal" => "urn:ietf:params:xml:ns:caldav" }
 
         xml.instruct!
-        xml.tag! "cal:mkcalendar", namespaces do
-          xml.tag! "dav:set" do
-            xml.tag! "dav:prop" do
-              xml.tag! "dav:displayname", displayname unless displayname.blank?
+        xml.cal :mkcalendar, namespaces do
+          xml.dav :set do
+            xml.dav :prop do
+              xml.dav :displayname, displayname unless displayname.blank?
               xml.tag! "cal:calendar-description", description, "xml:lang" => "en" unless description.blank?            # 
               # xml.tag! "cal:supported-calendar-component-set" do
               #   xml.tag! "cal:comp", :name => "VEVENT"
