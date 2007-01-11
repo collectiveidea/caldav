@@ -3,6 +3,7 @@ module CalDAV
     NAMESPACES = { "xmlns:dav" => 'DAV:', "xmlns:cal" => "urn:ietf:params:xml:ns:caldav" }
     attr_accessor :child
     
+    #TODO: raise error if to_xml is called before child is assigned
     def to_xml(xml = Builder::XmlMarkup.new(:indent => 2))
       xml.instruct!
       xml.tag! "cal:calendar-query", NAMESPACES do
@@ -30,8 +31,8 @@ module CalDAV
     end
     
     def child=(child)
-      @child = child
       child.parent = self
+      @child = child
     end
 
   end

@@ -3,8 +3,6 @@ require File.dirname(__FILE__) + '/../../test_helper.rb'
 class CalDAV::Filter::BaseTest < Test::Unit::TestCase
   
   def setup
-    @start = Date.new(2006, 1, 1)
-    @end = Date.new(2006, 12, 31)
     @filter = CalDAV::Filter::Base.new
   end
   
