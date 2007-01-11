@@ -5,6 +5,8 @@ require 'rubygems'
 require 'test/unit'
 require 'breakpoint'
 require 'caldav'
+require 'mocha'
+require 'stubba'
 
 class Test::Unit::TestCase
   
@@ -28,8 +30,20 @@ private
   
   def assert_request_body(path, request)
     file = File.read(File.join(File.dirname(__FILE__), 'requests', *path ))
-    assert_not_nil request.generate_body
-    assert_equal REXML::Document.new(file, :compress_whitespace => :all, :ignore_whitespace_nodes => :all).to_s, REXML::Document.new(request.generate_body, :compress_whitespace => :all, :ignore_whitespace_nodes => :all).to_s
+    assert_not_nil request
+    assert_equal REXML::Document.new(file, :compress_whitespace => :all, :ignore_whitespace_nodes => :all).to_s, REXML::Document.new(request, :compress_whitespace => :all, :ignore_whitespace_nodes => :all).to_s
+  end
+  
+  def assert_accessor(object, *methods)
+    methods = methods.first if methods.first.is_a? Hash
+    methods.each do |method, value|
+      assert_respond_to object, method
+      original_value = object.send(method)
+      object.send("#{method}=", value || 'test') 
+      assert_equal(value || 'test', object.send(method))
+      assert_not_equal original_value, object.send(method)
+    end
+    
   end
   
 end

@@ -20,10 +20,9 @@ module CalDAV
     def self.create(uri, options = {})
       parsed_uri = URI.parse(uri)
       response = Net::HTTP.start(parsed_uri.host, parsed_uri.port) do |http|
-        request = CalDAV::Request::Mkcalendar.new(parsed_uri.path)
+        request = Net::HTTP::Mkcalendar.new(parsed_uri.path)
+        request.body = CalDAV::Request::Mkcalendar.new(options[:displayname], options[:description]).to_xml
         request.basic_auth options[:username], options[:password] unless options[:username].blank? && options[:password].blank?
-        request.displayname = options[:displayname]
-        request.description = options[:description]
         http.request request
       end
       raise CalDAV::Error.new(response.message, response) if response.code != '201'
@@ -50,8 +49,8 @@ module CalDAV
     
     # TODO: check that supported-report-set includes REPORT
     def events(time_range)
-      request = new_request CalDAV::Request::Report do |request|
-        request.time_range = time_range
+      request = new_request Net::HTTP::Report do |request|
+        request.body = CalendarQuery.new.event(time_range).to_xml
       end
       response = perform_request request
       
