@@ -21,3 +21,6 @@ CalendarResult.new.limit_recurrence_set(range)
 CalendarResult.new.expand_recurrence(range)
 CalendarResult.new.freebusy(range)
 
+== Running Tests
+
+gem install mocha
