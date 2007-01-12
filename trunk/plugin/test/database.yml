@@ -13,6 +13,6 @@ postgresql:
 mysql:
   :adapter: mysql
   :host: localhost
-  :username: rails
+  :username: root
   :password:
   :database: caldav_plugin_test

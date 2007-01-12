@@ -19,5 +19,4 @@ class CaldavTest < Test::Unit::TestCase
     assert_equal "jim", @user.calendar.options[:username]
     assert_equal "chavez", @user.calendar.options[:password]
   end
-
 end

@@ -42,4 +42,35 @@ module ActiveCalDAV
       
     end
   end
+  
+  module IsEvent
+    def self.included(base) # :nodoc:
+      base.extend ClassMethods
+    end
+    
+
+    module ClassMethods
+      def is_caldav_event(options)
+        cattr_accessor :activecaldav_event_options
+        self.activecaldav_event_options = options
+        attr_accessor :event
+        include InstanceMethods
+      end
+    end
+  
+    module InstanceMethods
+      
+      def initialize(*args)
+        super
+        
+      end
+    private
+      def caldav_event
+        @caldav_event ||= unless @caldav_event
+          chair = self.send(self.class.activecaldav_event_options[:chair])
+          chair.calendar.event(self.activecaldav_uid) if chair
+        end
+      end
+    end    
+  end
 end
