@@ -3,8 +3,8 @@ require File.dirname(__FILE__) + '/test_helper'
 class CaldavTest < Test::Unit::TestCase
   
   def setup
-    @uri = URI.parse("http://example.com/calendars/users/jim/calendar")
-    @user = User.new(:name => "jim")
+    @uri = URI.parse("http://localhost:8008/calendars/users/admin/calendar")
+    @user = User.new(:name => "admin")
   end
 
   def test_has_caldav_calendar_declaration_adds_calendar
@@ -16,7 +16,7 @@ class CaldavTest < Test::Unit::TestCase
   end
   
   def test_sets_username_and_password
-    assert_equal "jim", @user.calendar.options[:username]
-    assert_equal "chavez", @user.calendar.options[:password]
+    assert_equal "admin", @user.calendar.options[:username]
+    assert_equal "admin", @user.calendar.options[:password]
   end
 end

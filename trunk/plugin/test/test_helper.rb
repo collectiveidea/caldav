@@ -2,6 +2,8 @@ $:.unshift(File.dirname(__FILE__) + '/../lib')
 
 require 'test/unit'
 require 'rubygems'
+require 'fake_web'
+require 'open-uri'
 
 require 'active_record'
 require 'active_record/fixtures'
@@ -35,4 +37,15 @@ class Test::Unit::TestCase #:nodoc:
   self.use_instantiated_fixtures  = false
 
   # Add more helper methods to be used by all tests here...
+  
+  
+  def assert_accessor(object, *methods)
+    methods = methods.first if methods.first.is_a? Hash
+    methods.each do |method, value|
+      original_value = object.send(method)
+      object.send("#{method}=", value || 'test') 
+      assert_equal(value || 'test', object.send(method))
+      assert_not_equal original_value, object.send(method)
+    end
+  end
 end

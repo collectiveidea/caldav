@@ -2,3 +2,8 @@ first:
   id: 1
   name: How to drive under the influence
   user_id: 1
+  activecaldav_uid: FOOBAR
+without_uid:
+  id: 2
+  name: Not In CalDAV
+  user_id: 1

@@ -1,5 +1,9 @@
 
 module ActiveCalDAV
+  
+  class NotFound < StandardError
+  end
+  
   module HasCalendar
     def self.included(base) # :nodoc:
       base.extend ClassMethods
@@ -56,20 +60,53 @@ module ActiveCalDAV
         attr_accessor :event
         include InstanceMethods
       end
+      
     end
   
     module InstanceMethods
       
-      def initialize(*args)
-        super
-        
-      end
-    private
-      def caldav_event
-        @caldav_event ||= unless @caldav_event
-          chair = self.send(self.class.activecaldav_event_options[:chair])
-          chair.calendar.event(self.activecaldav_uid) if chair
+      def method_missing(method, *args, &block)
+        begin
+          super(method, *args, &block)
+        rescue NoMethodError
+          self.caldav_event.send(map_caldav_method(method) || method, *args)
         end
+      end
+
+    protected
+      
+      def map_caldav_method(method)
+        mapping = { :begin_at => :dtstart, :end_at => :dtend }
+        
+        if method.to_s[-1, 1] == "="
+          attribute = mapping[method.to_s[0...-1].to_sym]
+          attribute ? "#{attribute}=" : nil
+        else
+          mapping[method.to_sym]
+        end
+      end
+    
+      def write_caldav_attribute(attr, value)
+        self.caldav_event.send("#{attr}=", value)
+      end
+      
+      def read_caldav_attribute(attr)
+        self.caldav_event.send(attr)
+      end
+    
+      def caldav_event
+        unless @caldav_event
+          @caldav_event = chair.calendar.events(self.activecaldav_uid).first if chair
+          if @caldav_event.nil?
+            raise ActiveCalDAV::NotFound if self.activecaldav_uid
+            @caldav_event = Icalendar::Event.new
+          end
+        end
+        @caldav_event
+      end
+      
+      def chair
+        self.send(self.class.activecaldav_event_options[:chair])
       end
     end    
   end
