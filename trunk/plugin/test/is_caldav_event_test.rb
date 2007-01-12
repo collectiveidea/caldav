@@ -12,7 +12,9 @@ class IsCalDAVEventTest < Test::Unit::TestCase
   
   def test_user_has_calendar
     course = Course.find(courses(:first).id)
-    
+
+    assert_not_nil course.user
+    assert_not_nil course.user.calendar
     assert_kind_of Icalendar::Event, course.instance_variable_get("@caldav_event")
   end
   

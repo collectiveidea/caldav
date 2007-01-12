@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
-  has_caldav_calendar "http://example.com/calendars/users/:name/calendar",
-    :username => :name, :password => "chavez"
+  has_caldav_calendar "http://localhost:8008/calendars/users/:name/calendar",
+    :username => :name, :password => "admin"
+  
+  has_many :courses
 end
