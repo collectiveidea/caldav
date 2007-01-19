@@ -48,9 +48,9 @@ module CalDAV
     end
     
     # TODO: check that supported-report-set includes REPORT
-    def events(time_range)
+    def events(param)
       request = new_request Net::HTTP::Report do |request|
-        request.body = CalendarQuery.new.event(time_range).to_xml
+        request.body = CalendarQuery.new.event(param).to_xml
       end
       response = perform_request request
       

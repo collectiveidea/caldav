@@ -11,6 +11,8 @@ require 'extensions/icalendar/event'
 Dir[File.join(File.dirname(__FILE__), 'caldav/**/*.rb')].sort.each { |lib| require lib }
 
 module CalDAV
+  NAMESPACES = { "xmlns:dav" => 'DAV:', "xmlns:cal" => "urn:ietf:params:xml:ns:caldav" }
+  
   class Error < StandardError
     attr_reader :response
     
